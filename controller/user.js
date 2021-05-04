@@ -83,27 +83,7 @@ exports.createpost = async (req, res) => {
     }
 } 
 
-exports.allBookings = async (req, res) => {
-    const { userId } = req.params;
-    const userExist = await User.findOne({ _id: userId });
-    if(!userExist) res.status(400).send("User Not exist with user ID");
 
-    if(userExist) {
-        const bookings = await Booking.find();
-        const result = await Promise.all(bookings.map( async (e) => {
-            const advisor = await Advisor.findOne({ _id: e.advisorId });
-            return {
-                "Advisor Name": advisor.advisorName,
-                "Advisor Profile Pic": advisor.photoUrl,
-                "Advisor Id": advisor._id,
-                "Booking Time":  e.bookingTime,
-                "Booking Id": e._id
-            }
-        }));
-        res.status(200).send(result);
-    }
-
-} 
 
 
 exports.comment = async (req, res) => {
